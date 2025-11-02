@@ -137,6 +137,20 @@ $ docker logs signoz-otel-collector
 $ docker restart signoz-otel-collector
 ```
 
+# Run to diagnose 
+```sh
+$ docker run --rm -it --network signoz-net ubuntu /bin/bash -c "apt update && apt install telnet -y && telnet signoz-otel-collector 4317"
+```
+If it successfully gives something like Trying 172.18.0.6... it means DNS is working to convert from signoz-otel-collector -> 172.18.0.6
+
+After running this if it's connected It means no host level firewall block then simply restart the custom collector service and logs are going to flow
+```sh
+$ docker restart signoz-file-log-collector
+```
+# Inpsect and get the IP of the container
+```sh
+$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' signoz-otel-collector
+```
 # Fake Credentials
 Email: test@test.com
 Password: TestSignoz@1234

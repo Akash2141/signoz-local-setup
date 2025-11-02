@@ -11,11 +11,11 @@ services:
     volumes:
       # CRITICAL: Mount your local log file into the container
       # --------------------------------------------------------
-      - ./project.log:/var/log/project.log:ro 
+      - /home/vagrant/signoz-setup/project.log:/var/log/project.log:ro 
       # --------------------------------------------------------
       
       # Mount the custom collector configuration file
-      - ./filelog-logs-only.yaml:/etc/new-config.yaml
+      - /home/vagrant/signoz-setup/filelog-logs-only.yaml:/etc/new-config.yaml
       
     # Connect to the same network as the main SigNoz services
     networks:
@@ -28,5 +28,6 @@ services:
 # You must ensure the network is defined if it's not already in your main docker-compose file
 networks:
   signoz-net:
-    driver: bridge
+    external: true
+    name: signoz-net
     # ... any other settings for your network

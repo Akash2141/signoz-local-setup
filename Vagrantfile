@@ -43,6 +43,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Add the 'vagrant' user to the 'docker' group to run commands without sudo
       sudo usermod -aG docker vagrant
 
+      # git clone https://github.com/SigNoz/signoz.git
+
+      # docker compose -f signoz/deploy/docker/docker-compose.yaml -f ./signoz-setup/docker-compose.yaml up -d
+
       echo "--- Docker and Compose Installation Complete ---"
     SHELL
   end
