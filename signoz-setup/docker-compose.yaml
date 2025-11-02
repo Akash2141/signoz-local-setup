@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  # This is your new custom collector service
+  otel-collector-filelog:
+    image: otel/opentelemetry-collector-contrib:latest # Use the contrib image for the filelog receiver
+    container_name: signoz-file-log-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    restart: unless-stopped
+    
+    volumes:
+      # CRITICAL: Mount your local log file into the container
+      # --------------------------------------------------------
+      - ./project.log:/var/log/project.log:ro 
+      # --------------------------------------------------------
+      
+      # Mount the custom collector configuration file
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      
+    # Connect to the same network as the main SigNoz services
+    networks:
+      - signoz-net 
+      
+    # Ensure it starts after the main SigNoz OTLP endpoint is ready
+    depends_on:
+      - otel-collector # Assuming your main SigNoz collector is named 'otel-collector'
+
+# You must ensure the network is defined if it's not already in your main docker-compose file
+networks:
+  signoz-net:
+    driver: bridge
+    # ... any other settings for your network

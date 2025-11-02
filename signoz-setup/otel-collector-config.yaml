@@ -1,0 +1,30 @@
+receivers:
+  # 1. Filelog Receiver to read your specific log file
+  filelog/project_log:
+    include: [/var/log/project.log] # Path *inside* the Docker container
+    start_at: beginning                # Start reading from the beginning of the file (use 'end' for only new logs)
+    
+    # Optional: Basic log line parsing to put the whole line in the 'body' attribute
+    operators:
+      - type: regex_parser
+        regex: '^(?P<log_line>.*)$' # Matches the entire line
+        output: '{log_line}'
+
+exporters:
+  # 2. OTLP Exporter to send data to the SigNoz ClickHouse backend
+  otlp:
+    endpoint: signoz-otel-collector:4317 # Points to the SigNoz OTLP endpoint within the Docker network
+    tls:
+      insecure: true
+
+processors:
+  # Batch processor for efficient transmission
+  batch:
+
+service:
+  pipelines:
+    # 3. Define the logs pipeline
+    logs:
+      receivers: [filelog/project_log] # Use the filelog receiver we defined
+      processors: [batch]
+      exporters: [otlp] # Send logs to the OTLP exporter
