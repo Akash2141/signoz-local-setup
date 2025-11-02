@@ -5,7 +5,7 @@ services:
   otel-collector-filelog:
     image: otel/opentelemetry-collector-contrib:latest # Use the contrib image for the filelog receiver
     container_name: signoz-file-log-collector
-    command: ["--config=/etc/otel-collector-config.yaml"]
+    command: ["--config=/etc/new-config.yaml"]
     restart: unless-stopped
     
     volumes:
@@ -15,7 +15,7 @@ services:
       # --------------------------------------------------------
       
       # Mount the custom collector configuration file
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - ./filelog-logs-only.yaml:/etc/new-config.yaml
       
     # Connect to the same network as the main SigNoz services
     networks:

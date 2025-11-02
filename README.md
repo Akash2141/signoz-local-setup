@@ -103,6 +103,40 @@ All three components are chained together within the Collector's **Log Pipeline*
 
 In summary, the **OTLP Collector** is the container that runs the **Filelog Receiver** to bring data *in* and the **OTLP Exporter** to send data *out*. 
 
+
+# Run Multi file command 
+```sh
+$ docker compose -f signoz/deploy/docker/docker-compose.yaml -f docker-compose.yaml up -d
+```
+
+# Docker down using multi line
+```sh
+$ docker compose -f signoz/deploy/docker/docker-compose.yaml -f docker-compose.yaml down -v
+```
+
+# Add Manual Logs
+```sh
+$ echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Manual test log line added." >> project.log
+```
+
+# Recrete after changes
+```sh
+$ docker compose -f signoz/deploy/docker/docker-compose.yaml -f docker-compose.yaml up -d --force-recreate
+```
+
+# Logs to verify in signoz log collector
+```sh
+$ docker logs signoz-file-log-collector
+```
+```sh
+$ docker logs signoz-otel-collector
+```
+
+# When signoz otel collector shows the error try restarting it
+```sh
+$ docker restart signoz-otel-collector
+```
+
 # Fake Credentials
 Email: test@test.com
 Password: TestSignoz@1234
