@@ -3,6 +3,26 @@ receivers:
   filelog/project_log:
     include: [/var/log/project.log] # Path *inside* the Docker container
     start_at: beginning                # Start reading from the beginning of the file (use 'end' for only new logs)
+    operators:
+      - type: regex_parser
+        # This regex assumes a format like: 
+        # 2025-11-02 14:00:00 [ERROR] [service-name] The rest of the message.
+        regex: '^(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>[A-Z]+)\] \[(?P<service_name>[^\]]+)\] (?P<msg>.*)$'
+        
+      - type: move
+        # Move the extracted service_name into a standard OpenTelemetry attribute
+        from: attributes.service_name
+        to: resource["service.name"]
+      
+      - type: move
+        # Move the extracted log level into the body
+        from: attributes.level
+        to: attributes.log_level
+      
+      - type: move
+        # Set the main log message body
+        from: attributes.msg
+        to: body
     
 exporters:
   # 2. OTLP Exporter to send data to the SigNoz ClickHouse backend
