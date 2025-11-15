@@ -103,6 +103,11 @@ All three components are chained together within the Collector's **Log Pipeline*
 
 In summary, the **OTLP Collector** is the container that runs the **Filelog Receiver** to bring data *in* and the **OTLP Exporter** to send data *out*. 
 
+# Run Signoz Docker Compose First
+It would create the network and all first which will we use in our docker
+```sh
+$ docker compose -f signoz/deploy/docker/docker-compose.yaml up -d
+```
 
 # Run Multi file command 
 ```sh
@@ -154,3 +159,31 @@ $ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' s
 # Fake Credentials
 Email: test@test.com
 Password: TestSignoz@1234
+
+# Node Application To Send Metrics
+
+## Install Nodejs
+Via Node Source
+```sh
+$ sudo apt update
+$ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+$ sudo apt install -y nodejs
+$ npm -v
+```
+
+Via NVM
+```sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+node -v
+npm -v
+```
+
+## Setup Nodejs Project
+```sh
+$ mkdir signoz-custom-metrics
+$ cd signoz-custom-metrics
+$ npm init -y
+$ npm install @opentelemetry/api @opentelemetry/sdk-metrics @opentelemetry/exporter-metrics-otlp-http
+```

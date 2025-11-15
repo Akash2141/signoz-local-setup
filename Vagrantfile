@@ -43,6 +43,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Add the 'vagrant' user to the 'docker' group to run commands without sudo
       sudo usermod -aG docker vagrant
 
+      # Install Nodejs
+      # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      # source ~/.bashrc
+      # nvm install --lts
+      # node -v
+      # npm -v
+
       # git clone https://github.com/SigNoz/signoz.git
 
       # docker compose -f signoz/deploy/docker/docker-compose.yaml -f ./signoz-setup/docker-compose.yaml up -d
