@@ -146,6 +146,10 @@ cat << 'EOF' > "$PROJECT_NAME/src/metrics.ts"
 import { metrics, ValueType } from '@opentelemetry/api';
 import { MeterProvider, PeriodicExportingMetricReader, ConsoleMetricExporter } from '@opentelemetry/sdk-metrics';
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
+import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
+
+// Set the logger to print to the console
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 function initializeOtlp() {
     const priodicExporterMetricReader= getOtelPriodicExporterMetricReader();

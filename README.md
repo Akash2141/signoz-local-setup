@@ -187,3 +187,25 @@ $ cd signoz-custom-metrics
 $ npm init -y
 $ npm install @opentelemetry/api @opentelemetry/sdk-metrics @opentelemetry/exporter-metrics-otlp-http
 ```
+
+## Add Debugger To OTEL
+### Node js project
+```typescript
+import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
+
+// Set the logger to print to the console
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+
+// Your OTel setup code follows...
+```
+
+### Python project
+```python
+import logging
+
+# Configure logging to print to stdout
+logging.basicConfig(level=logging.DEBUG)
+
+# Specifically enable OpenTelemetry logs
+logging.getLogger('opentelemetry').setLevel(logging.DEBUG)
+```
