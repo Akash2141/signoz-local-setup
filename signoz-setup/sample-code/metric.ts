@@ -1,0 +1,42 @@
+import { metrics, ValueType } from '@opentelemetry/api';
+import { MeterProvider, PeriodicExportingMetricReader, ConsoleMetricExporter } from '@opentelemetry/sdk-metrics';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
+
+function initializeOtlp() {
+    const priodicExporterMetricReader= getOtelPriodicExporterMetricReader();
+    const consoleExporterMetricReader = getConsoleExporterMetricReader();
+
+    const provider = new MeterProvider({
+        readers: [priodicExporterMetricReader, consoleExporterMetricReader],
+    });
+    metrics.setGlobalMeterProvider(provider);
+}
+
+function getOtelPriodicExporterMetricReader(){
+    const metricExporter = new OTLPMetricExporter({
+        url: process.env.OTLP_ENDPOINT,
+    });
+
+    const metricReader = new PeriodicExportingMetricReader({
+        exporter: metricExporter,
+        exportIntervalMillis: 5000,
+    });
+
+    return metricReader;
+}
+
+function getConsoleExporterMetricReader(){
+    const metricReader = new PeriodicExportingMetricReader({
+        exporter: new ConsoleMetricExporter(),
+        exportIntervalMillis: 5000,
+    });
+
+    return metricReader;
+}
+
+function createHistogram(name: string) {
+    const meter = metrics.getMeter('custom-node-app-meter');
+    return meter.createHistogram(name);
+}
+
+export { initializeOtlp, createHistogram }
