@@ -21,11 +21,14 @@ function initializeOtlp() {
 function getOtelPriodicExporterMetricReader(){
     const metricExporter = new OTLPMetricExporter({
         url: process.env.OTLP_ENDPOINT,
+        concurrencyLimit: 1, // to introduce concurrent export limit reached
+        timeoutMillis: 5000, // to introduce concurrent export limit reached
     });
 
     const metricReader = new PeriodicExportingMetricReader({
         exporter: metricExporter,
-        exportIntervalMillis: 5000,
+        // exportIntervalMillis: 5000,
+        exportIntervalMillis: 100, // to introduce concurrent export limit reached
     });
 
     return metricReader;
