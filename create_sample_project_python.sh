@@ -97,7 +97,7 @@ from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
 from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExporter
 import logging
 logging.basicConfig(level=logging.DEBUG)
-logging.getLogger('opentelemetry').setLevel(logging.DEBUG)
+# logging.getLogger('opentelemetry').setLevel(logging.DEBUG)
 
 def initialize_otlp():
     endpoint = os.getenv('OTLP_ENDPOINT', 'http://localhost:4318/v1/metrics')
