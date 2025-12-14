@@ -99,6 +99,10 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 # logging.getLogger('opentelemetry').setLevel(logging.DEBUG)
 
+# 2. ADD THIS: Silence the noisy HTTP connection logs
+# This tells urllib3: "Only bother me if there is a Warning or Error"
+# logging.getLogger('urllib3').setLevel(logging.WARNING)
+
 def initialize_otlp():
     endpoint = os.getenv('OTLP_ENDPOINT', 'http://localhost:4318/v1/metrics')
     
