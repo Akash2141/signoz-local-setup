@@ -180,6 +180,32 @@ node -v
 npm -v
 ```
 
+## Install Python
+Via APT (Ubuntu/Debian)
+```sh
+$ sudo apt update
+$ sudo apt install -y python3 python3-pip
+$ sudo apt install python3.10-venv
+$ python3 --version
+$ pip3 --version
+```
+
+Via Pyenv (Recommended for version management)
+```sh
+$ curl https://pyenv.run | bash
+# Follow instructions to add pyenv to your shell's PATH
+# e.g., for bash:
+# echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+# echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+# echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init --path)"\nfi' >> ~/.bashrc
+# source ~/.bashrc
+
+$ pyenv install 3.9.18 # Or your preferred version
+$ pyenv global 3.9.18
+$ python --version
+$ pip --version
+```
+
 ## Setup Nodejs Project
 ```sh
 $ mkdir signoz-custom-metrics
